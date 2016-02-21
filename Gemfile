@@ -50,6 +50,7 @@ gem 'rack-cors'
 gem 'state_machines-activerecord'
 gem 'autosize-rails'
 gem 'babosa'
+gem 'momentjs-rails'
 
 group :development, :test do
   gem 'spring'
