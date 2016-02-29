@@ -47,12 +47,6 @@ GEM
       json
     autosize-rails (1.18.17)
       rails (>= 3.1)
-    aws-sdk (2.2.8)
-      aws-sdk-resources (= 2.2.8)
-    aws-sdk-core (2.2.8)
-      jmespath (~> 1.0)
-    aws-sdk-resources (2.2.8)
-      aws-sdk-core (= 2.2.8)
     babosa (1.0.2)
     bcrypt (3.1.10)
     bootstrap-sass (3.3.5)
@@ -72,9 +66,6 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
-    carrierwave-aws (1.0.0)
-      aws-sdk (~> 2.0)
-      carrierwave (~> 0.7)
     carrierwave-ftp (0.2.8)
       carrierwave (>= 0.6.2)
       net-sftp (~> 2.1.2)
@@ -157,7 +148,6 @@ GEM
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
-    jmespath (1.1.3)
     jquery-rails (4.0.5)
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
@@ -374,7 +364,6 @@ DEPENDENCIES
   cancancan
   capybara
   carrierwave
-  carrierwave-aws
   carrierwave-ftp
   charlock_holmes
   coffee-rails (~> 4.0.0)
