@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+.body-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -439px;
+}
+
+.body-wrap:after {
+  content: "";
+  display: block;
+}
+
+dgm-footer, .body-wrap:after {
+  height: 439px;
+}

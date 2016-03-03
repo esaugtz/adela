@@ -7,8 +7,9 @@
     = html_import_tag "application"
     = csrf_meta_tags
   %body
-    = render "layouts/header"
-    = render "layouts/shared/breadcrumbs"
-    = render "layouts/flash_messages", flash: flash
-    = yield
+    .body-wrap
+      = render "layouts/header"
+      = render "layouts/shared/breadcrumbs"
+      = render "layouts/flash_messages", flash: flash
+      = yield
     %dgm-footer
