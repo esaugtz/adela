@@ -51,6 +51,7 @@ gem 'state_machines-activerecord'
 gem 'autosize-rails'
 gem 'babosa'
 gem 'momentjs-rails'
+gem 'active_link_to'
 
 group :development, :test do
   gem 'spring'
