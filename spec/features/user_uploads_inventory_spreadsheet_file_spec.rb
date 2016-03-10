@@ -106,8 +106,34 @@ feature User, 'uploads inventory spreadsheet file:' do
     end
   end
 
+  scenario 'sees the inventory activity log in the landing page' do
+    within('.navbar') { click_on('Inventario de Datos') }
+    submit_inventory_form_with_spreadsheet_file('inventario_general_de_datos.xlsx')
+
+    visit '/'
+    expect(page).to have_css('ul.recent_activity li', count: 1)
+
+    within find('.recent_activity') do
+      expect(page).to have_text('publicó un nuevo Inventatio de Datos')
+    end
+  end
+
+  scenario 'sees the invnentory activity log text area' do
+    upload_inventory_with_file('inventario_general_de_datos.xlsx')
+    within('.navbar') { click_on('Inventario de Datos') }
+
+    within('.btn-group') do
+      click_on('Acciones')
+      click_on('Actualizar')
+    end
+
+    expect(current_path).to eq(new_inventory_path)
+    expect(page).to have_css('#inventory_activity_logs_attributes_0_description')
+  end
+
   def submit_inventory_form_with_spreadsheet_file(file_name)
     attach_inventory_spreadsheet_file(file_name)
+    fill_activity_log
     submit_inventory_form_and_run_background_jobs
   end
 
@@ -123,6 +149,11 @@ feature User, 'uploads inventory spreadsheet file:' do
 
   def attach_inventory_authorization_file
     attach_file('inventory_authorization_file', "#{Rails.root}/spec/fixtures/files/authorization_file.jpg")
+  end
+
+  def fill_activity_log
+    return unless page.has_css?('#inventory_activity_logs_attributes_0_description')
+    fill_in('inventory_activity_logs_attributes_0_description', with: Faker::Lorem.paragraph)
   end
 
   def submit_inventory_form_and_run_background_jobs
