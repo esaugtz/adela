@@ -178,7 +178,7 @@ var sumaRating  = 0;
 var sumaCalidad  = 0;
 var totalRecommendations  = 0;
 
-var totalCalidad, percentRecommen, percentPubl, percentCalidad, dataApi, orgTitle, orgLogoUrl, downloads, adelaIssued, resourceId, rating, totalRaiting, adelaPublishDate, resourceTitle, resourceType, resourceModified, dataDescargasOpi, dataPublicOpi, isPublicFalse, isPublicTrue;
+var totalCalidad, percentRecommen, percentPubl, percentCalidad, dataApi, orgTitle, orgLogoUrl, downloads, adelaIssued, resourceId, rating, totalRaiting, adelaPublishDate, resourceTitle, resourceType, resourceModified, dataDescargasOpi, isPublicFalse, isPublicTrue;
 var valueDownloads = [];
 
 //Ajax Dataset Buda
@@ -197,26 +197,27 @@ $.ajax({
 orgLogoUrl = "<%= OPI_LOGOS_URL %>" + orgName + '.png';
 $('#logo_org').attr('src',orgLogoUrl);
 
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
 //Dependencias Opi
 $.ajax({
   url: "<%= OPI_DASHBOARD_URL_API %>/" + orgName + "/",
+  //url: "http://datos.gob.mx/tablero-instituciones/apicomparativa/" + orgName + "/",
   async: false,
   type: 'GET',
   success: function(json) {
-    dataPublicOpi = json.dependencias;
-    $.each(json.dependencias,function(key, value){
-      var orgNameData = value.slug;
-      if (orgName == orgNameData) {
-        isPublicFalse = value.privados;
-        isPublicTrue = value.publicos;
-        totalRaiting = value.apertura;
-        $("#califTotal").text(value.calificacion);
-        $("#rknTotal").text(value.ranking);
-        $("#title_org").text(value.institucion);
-        $('#issuedTotal').text('/'+value.total.toLocaleString('en'));
-        $('#issuedPublish').text(value.publicados.toLocaleString('en'));
-      }
-    });
+    isPublicFalse = json.privados;
+    isPublicTrue = json.publicos;
+    totalRaiting = json.apertura;
+    $("#califTotal").text(json.calificacion);
+    $("#rknTotal").text(json.ranking);
+    $("#title_org").text(json.institucion);
+    $('#issuedTotal').text('/'+json.total.toLocaleString('en'));
+    $('#issuedPublish').text(json.publicados.toLocaleString('en'));
+    $("#calidadDatosHtml").text(toTitleCase(json.calidad));
   }
 });
 
@@ -225,6 +226,7 @@ $("#orgTotal").text(orgCount);
 //Top 5 Descargas
 $.ajax({
   url: "<%= OPI_DASHBOARD_URL_API %>" + "/recursos-mas-descargados/" + orgName + "/",
+  //url: "http://datos.gob.mx/tablero-instituciones/apicomparativa/recursos-mas-descargados/" + orgName + "/",
   async: false,
   type: 'GET',
   success: function(data) {
@@ -261,7 +263,7 @@ $.each(dataApi.results,function(key, value){
   } else if (totalCalidad > 2.5 && totalCalidad <= 3) {
     var calidadDatos = "Oro";
   }
-  $("#calidadDatosHtml").text(calidadDatos);
+  //$("#calidadDatosHtml").text(calidadDatos);
 
   totalRecommendations = totalRecommendations + value.recommendations.length
 
