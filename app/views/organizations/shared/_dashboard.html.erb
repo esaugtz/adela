@@ -18,7 +18,7 @@
       <div class="row">
         <div class="col-sm-6">
           <h4 class='title'>Calificación total de la institución</h4>
-          <p>Para conocer cómo se calcúla esta calificación da <a href="#modalTotal" data-toggle="modal">click aqui.</a></p><hr>
+          <p>Para conocer cómo se calcúla esta calificación da <a href="javascript:void(0)" class="openModal">click aqui.</a></p><hr>
           <div class="row">
             <div class="col-xs-12">
               <span class="pull-left calificacion-dashboard high-light-dashboard" id="califTotal"></span>
@@ -93,7 +93,7 @@
         </div>
         <div class="content-sub-dashboard">
           <h3 class='title'>Calificación de apertura <span class="high-light-dashboard">| Beta</span></h3>
-          <p>Esta calificación depende de los tipos de archivos que son publicados. Para conocer más da <a href="#modalTotal" data-toggle="modal">click aquí.</a></p><hr>
+          <p>Esta calificación depende de los tipos de archivos que son publicados. Para conocer más da <a href="javascript:void(0)" class="openModal">click aquí.</a></p><hr>
           <br>
           <ul class="list-inline">
             <li><div id="stars-raiting"></div></li>
@@ -102,7 +102,7 @@
         <p class="printHiden">&nbsp;</p>
         <div class="content-sub-dashboard">
           <h3 class='title'>Calidad de datos <span class="high-light-dashboard">| Beta</span></h3>
-          <p>Para conocer cómo se genera esta calificación de calidad de los datos da <a href="#modalTotal" data-toggle="modal">click aquí.</a></p><hr>
+          <p>Para conocer cómo se genera esta calificación de calidad de los datos da <a href="javascript:void(0)" class="openModal">click aquí.</a></p><hr>
           <h2><span class="high-light-dashboard" id="calidadDatosHtml"></span></h2>
           <p class="printHiden">&nbsp;</p>
         </div>
@@ -310,6 +310,11 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
+
+$(".openModal").click(function(){
+    $("#modalTotal").modal();
+});
+
 var orgCount = "<%= Organization.count %>";
 var strName = "<%= current_user.organization.title %>";
 var orgName = strName.toLowerCase();
