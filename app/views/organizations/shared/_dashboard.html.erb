@@ -346,7 +346,7 @@ function toTitleCase(str)
 
 //Dependencias Opi
 $.ajax({
-  url: "<%= OPI_DASHBOARD_URL_API %>/" + orgName + "/",
+  //url: "<%= OPI_DASHBOARD_URL_API %>/" + orgName + "/",
   async: false,
   type: 'GET',
   success: function(json) {
@@ -366,7 +366,7 @@ $("#orgTotal").text(orgCount);
 
 //Top 5 Descargas
 $.ajax({
-  url: "<%= OPI_DASHBOARD_URL_API %>" + "/recursos-mas-descargados/" + orgName + "/",
+  //url: "<%= OPI_DASHBOARD_URL_API %>" + "/recursos-mas-descargados/" + orgName + "/",
   async: false,
   type: 'GET',
   success: function(data) {
@@ -578,6 +578,7 @@ function drawChart() {
   ];
   data5 = google.visualization.arrayToDataTable(dataArray5);
   var options = {
+    //width:280, height:180,
     animation:{
       duration: 1000,
       easing: 'out',
