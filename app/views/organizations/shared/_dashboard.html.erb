@@ -1,4 +1,3 @@
-
 <div class="overlay-dashboard">
   <!-- header organizacion -->
   <div class="container content-dashboard">
@@ -18,7 +17,7 @@
       <div class="row">
         <div class="col-sm-6">
           <h4 class='title'>Calificación total de la institución</h4>
-          <p>Para conocer cómo se calcúla esta calificación da <a href="javascript:void(0)" class="openModal">click aqui.</a></p><hr>
+          <p>Para conocer cómo se calcúla esta calificación da <a href="#">click aqui.</a></p><hr>
           <div class="row">
             <div class="col-xs-12">
               <span class="pull-left calificacion-dashboard high-light-dashboard" id="califTotal"></span>
@@ -41,6 +40,7 @@
       <div class="row">
         <div class="col-sm-6">
           <h3 class='title'>Atiende tus recomendaciones</h3>
+          <p>Da click en "Error" para ver más detalles al respecto. Para notificar al responsable del recurso, da click en Notifica.</p><br>
           <div class="table-responsive table-500">
             <table class="table">
               <thead>
@@ -48,6 +48,7 @@
                   <th class="text-center">Tipo</th>
                   <th class="text-center">Recurso</th>
                   <th class="text-center">Error</th>
+                  <th class="text-center">Notifica</th>
                 </tr>
               </thead>
               <tbody id="table-recommendations">
@@ -68,6 +69,7 @@
                   <th class="text-center">Fecha</th>
                   <th class="text-center">Recurso</th>
                   <th class="text-center">Tipo</th>
+                  <th class="text-center">Notifica</th>
                 </tr>
               </thead>
               <tbody id="table-pendientes">
@@ -93,7 +95,7 @@
         </div>
         <div class="content-sub-dashboard">
           <h3 class='title'>Calificación de apertura <span class="high-light-dashboard">| Beta</span></h3>
-          <p>Esta calificación depende de los tipos de archivos que son publicados. Para conocer más da <a href="javascript:void(0)" class="openModal">click aquí.</a></p><hr>
+          <p>Esta calificación depende de los tipos de archivos que son publicados. Para conocer más da <a href="#">click aquí.</a></p><hr>
           <br>
           <ul class="list-inline">
             <li><div id="stars-raiting"></div></li>
@@ -102,7 +104,7 @@
         <p class="printHiden">&nbsp;</p>
         <div class="content-sub-dashboard">
           <h3 class='title'>Calidad de datos <span class="high-light-dashboard">| Beta</span></h3>
-          <p>Para conocer cómo se genera esta calificación de calidad de los datos da <a href="javascript:void(0)" class="openModal">click aquí.</a></p><hr>
+          <p>Para conocer cómo se genera esta calificación de calidad de los datos da <a href="#">click aquí.</a></p><hr>
           <h2><span class="high-light-dashboard" id="calidadDatosHtml"></span></h2>
           <p class="printHiden">&nbsp;</p>
         </div>
@@ -165,11 +167,6 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
-
-$(".openModal").click(function(){
-    $("#modalTotal").modal();
-});
-
 var orgCount = "<%= Organization.count %>";
 var strName = "<%= current_user.organization.title %>";
 var orgName = strName.toLowerCase();
@@ -179,10 +176,8 @@ var issuedPublish  = 0;
 var sumaRating  = 0;
 var sumaCalidad  = 0;
 var totalRecommendations  = 0;
-
 var totalCalidad, percentRecommen, percentPubl, percentCalidad, dataApi, orgTitle, orgLogoUrl, downloads, adelaIssued, resourceId, rating, totalRaiting, adelaPublishDate, resourceTitle, resourceType, resourceModified, dataDescargasOpi, isPublicFalse, isPublicTrue;
 var valueDownloads = [];
-
 //Ajax Dataset Buda
 $.ajax({
   url: "<%= OPI_BUDA_URL_API %>" + orgName + pageSize,
@@ -195,18 +190,16 @@ $.ajax({
     console.log("error- ",data);
   }
 });
-
 orgLogoUrl = "<%= OPI_LOGOS_URL %>" + orgName + '.png';
 $('#logo_org').attr('src',orgLogoUrl);
-
 function toTitleCase(str)
 {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
-
 //Dependencias Opi
 $.ajax({
   url: "<%= OPI_DASHBOARD_URL_API %>/" + orgName + "/",
+  //url: "http://datos.gob.mx/tablero-instituciones/apicomparativa/" + orgName + "/",
   async: false,
   type: 'GET',
   success: function(json) {
@@ -221,12 +214,11 @@ $.ajax({
     $("#calidadDatosHtml").text(toTitleCase(json.calidad));
   }
 });
-
 $("#orgTotal").text(orgCount);
-
 //Top 5 Descargas
 $.ajax({
   url: "<%= OPI_DASHBOARD_URL_API %>" + "/recursos-mas-descargados/" + orgName + "/",
+  //url: "http://datos.gob.mx/tablero-instituciones/apicomparativa/recursos-mas-descargados/" + orgName + "/",
   async: false,
   type: 'GET',
   success: function(data) {
@@ -236,15 +228,12 @@ $.ajax({
     console.log("error- ",data);
   }
 });
-
 var monthNames = [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic" ];
-
 $.each(dataApi.results,function(key, value){
-
   //Recorre IDs de recursos en Adela
   resourceId = value.adela.dataset.id;
   //Obtengo Titulo
-  resourceTitle = value.adela.resource.title;
+  resourceTitle = value.adela.dataset.title;
   resourceModified = value.adela.resource.modified;
   //Calificación Calidad de Datos
   if (value.calificacion == "bronce") {
@@ -254,7 +243,6 @@ $.each(dataApi.results,function(key, value){
   } else if (value.calificacion == "oro") {
     sumaCalidad = sumaCalidad + 3;
   }
-
   totalCalidad = sumaCalidad / issuedTotal;
   if (totalCalidad > 0 && totalCalidad <= 1.5) {
     var calidadDatos = "Bronce";
@@ -263,9 +251,8 @@ $.each(dataApi.results,function(key, value){
   } else if (totalCalidad > 2.5 && totalCalidad <= 3) {
     var calidadDatos = "Oro";
   }
-
+  //$("#calidadDatosHtml").text(calidadDatos);
   totalRecommendations = totalRecommendations + value.recommendations.length
-
   //Recorre recomendaciones
   $.each(value.recommendations,function(key, value){
     var recommendations = value;
@@ -277,21 +264,17 @@ $.each(dataApi.results,function(key, value){
       var urlError = "";
     }
     var html = '';
-    html += '<tr><td>' + recommendations.categoria.replace(/\b\w/g, function(l){ return l.toUpperCase() }) + '</td><td class="datosTitle" title="'+resourceTitle+'"><a href="/conjuntos/'+ resourceId +'/edit">' + resourceTitle + '</a></td><td>' + recommendations.name + '</td></tr>';
+    html += '<tr><td>' + recommendations.categoria.replace(/\b\w/g, function(l){ return l.toUpperCase() }) + '</td><td class="datosTitle" title="'+resourceTitle+'"><a href="/conjuntos/'+ resourceId +'/edit">' + resourceTitle + '</a></td><td>' + recommendations.name + '</td><td><a href="#">Notifica</a></td></tr>';
     $('#table-recommendations tr').first().after(html);
   });
-
   //Recorre descargas
   $.each(value.analytics,function(key, value){
     downloads = value.total;
     if (downloads != null) {
       valueDownloads.push(downloads);
     }
-
   });
-
   $("#stars-raiting").attr("data-rating",totalRaiting);
-
   //Obtengo publishDate
   adelaPublishDate = value.adela.dataset.publishdate;
   var dateToday = new Date();
@@ -299,18 +282,15 @@ $.each(dataApi.results,function(key, value){
   var day = date.getDate();
   var monthIndex = date.getMonth();
   var year = date.getFullYear();
-
   if (date > dateToday) {
     percentPubl = 0;
     var htmlPendientes = '';
-    htmlPendientes += '<tr><td class="text-center code-color-dashboard">' + day + ' ' + monthNames[monthIndex] + ' ' + year + '</td><td>' + resourceTitle + '</td><td>-</td></tr>';
+    htmlPendientes += '<tr><td class="text-center code-color-dashboard">' + day + ' ' + monthNames[monthIndex] + ' ' + year + '</td><td>' + resourceTitle + '</td><td>-</td><td><a href="#">Notifica</a></td></tr>';
     $('#table-pendientes tr').first().after(htmlPendientes);
   } else {
     percentPubl = 15;
   }
-
 });
-
 //Función para obtener el top 5 de descargas
 var n = 5;
 var topScorers = dataDescargasOpi.recursos;
@@ -323,24 +303,24 @@ topScorers.forEach(function(item, index) {
   htmlDown += '<tr><td class="datosTitle" title="'+item.recurso+'">' + item.recurso + '</td><td>'+ item.actualizacion +'</td><td class="text-center">' + item.descargas + '</td></tr>';
   $('#table-downloads tr').last().after(htmlDown);
 });
-
 var count = 1;
 $('.code-color-dashboard').each(function() {
   count = count+1;
   var heatmapScale  = chroma.scale(['#FFFF00','#FFAA00','#FF0000','#E60000']).colors(count);
   $(this).css('border-right','2px solid').css('border-right-color',heatmapScale[1]);
 });
-
 /////Raiting
 (function ( $ ) {
-
     $.fn.rating = function( method, options ) {
     method = method || 'create';
-      var settings = $.extend({
+        // This is the easiest way to have default options.
+        var settings = $.extend({
+            // These are the defaults.
       limit: 5,
       value: 0,
       glyph: "glyphicon-star",
       coloroff: "#D8D8D8",
+      //coloron: "#00CC99",
       size: "2.5em",
       cursor: "default",
       onClick: function () {},
@@ -351,24 +331,21 @@ $('.code-color-dashboard').each(function() {
     style = style + "color:" + settings.coloroff + "; ";
     style = style + "cursor:" + settings.cursor + "; ";
     style = style + "margin: 0 7px;";
-
     if (method == 'create')
     {
+      //this.html('');  //junk whatever was there
       //initialize the data-rating property
       this.each(function(){
         attr = $(this).attr('data-rating');
         if (attr === undefined || attr === false) { $(this).attr('data-rating',settings.value); }
       })
-
       //bolt in the glyphs
       for (var i = 0; i < settings.limit; i++)
       {
         this.append('<span data-value="' + (i+1) + '" class="ratingicon glyphicon ' + settings.glyph + '" style="' + style + '" aria-hidden="true"></span>');
       }
-
       //paint
       this.each(function() { paint($(this)); });
-
     }
     if (method == 'set')
     {
@@ -384,22 +361,17 @@ $('.code-color-dashboard').each(function() {
       rating = parseInt(div.attr('data-rating'));
       div.find("input").val(rating);  //if there is an input in the div lets set it's value
       div.find("span.ratingicon").each(function(){  //now paint the stars
-
         var rating = parseInt($(this).parent().attr('data-rating'));
         var value = parseInt($(this).attr('data-value'));
         if (value > rating) { $(this).css('color',settings.coloroff).addClass('starDark'); }
         else { $(this).addClass('starLight'); }
       })
     }
-
     };
-
 }( jQuery ));
-
 $(document).ready(function(){
   $("#stars-raiting").rating('create');
 });
-
 ///// BarChart
 google.charts.load('current', {packages: ['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawChart);
@@ -438,6 +410,7 @@ function drawChart() {
   ];
   data5 = google.visualization.arrayToDataTable(dataArray5);
   var options = {
+    //width:280, height:180,
     animation:{
       duration: 1000,
       easing: 'out',
@@ -470,10 +443,8 @@ function drawChart() {
   var chart5 = new google.visualization.BarChart(document.getElementById('bar-chart5'));
   chart5.draw(data5, options);
 };
-
 //Download PDF
   function printPDF() {
     window.print();
   };
-
 </script>
