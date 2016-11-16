@@ -199,7 +199,6 @@ function toTitleCase(str)
 //Dependencias Opi
 $.ajax({
   url: "<%= OPI_DASHBOARD_URL_API %>/" + orgName + "/",
-  //url: "http://datos.gob.mx/tablero-instituciones/apicomparativa/" + orgName + "/",
   async: false,
   type: 'GET',
   success: function(json) {
@@ -218,7 +217,6 @@ $("#orgTotal").text(orgCount);
 //Top 5 Descargas
 $.ajax({
   url: "<%= OPI_DASHBOARD_URL_API %>" + "/recursos-mas-descargados/" + orgName + "/",
-  //url: "http://datos.gob.mx/tablero-instituciones/apicomparativa/recursos-mas-descargados/" + orgName + "/",
   async: false,
   type: 'GET',
   success: function(data) {
