@@ -249,7 +249,7 @@ $.each(dataApi.results,function(key, value){
   } else if (totalCalidad > 2.5 && totalCalidad <= 3) {
     var calidadDatos = "Oro";
   }
-  //$("#calidadDatosHtml").text(calidadDatos);
+
   totalRecommendations = totalRecommendations + value.recommendations.length
   //Recorre recomendaciones
   $.each(value.recommendations,function(key, value){
