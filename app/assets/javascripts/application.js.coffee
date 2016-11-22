@@ -9,22 +9,28 @@
 //= require jquery.validate
 //= require jquery.validate.additional-methods
 //= require jquery_nested_form
-//= require jquery/validate/messages
+//= require jquery/validate
+//= require moment
+//= require moment/es
+//= require moment/utc2local
 //= require spin
 //= require jquery.spin
 //= require bootstrap
+//= require bootstrap/collapse
+//= require bootstrap/transition
 //= require toastr
-//= require fakeinputs
-//= require jquery.joyride-2.1
 //= require jquery.cookie
 //= require components/datepicker
 //= require components/table-checkbox
+//= require components/tooltip
 //= require components/agreement
+//= require components/jquery.dataTables.min
+//= require webcomponentsjs/webcomponents-lite
+//= require components/chroma
 //= require_self
 //= require_directory .
 
 ready = ->
-  initFileUploads()
   loadDatePicker()
   loadCheckboxes()
 

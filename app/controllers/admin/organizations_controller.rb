@@ -1,6 +1,6 @@
 module Admin
   class OrganizationsController < Admin::BaseController
-    load_and_authorize_resource
+    load_and_authorize_resource except: [:update_multiple]
 
     def index
       @organizations = Organization.includes(:users).title_sorted.paginate(page: params[:page])
@@ -11,7 +11,10 @@ module Admin
     end
 
     def create
-      if Organization.create(organization_params)
+      @organization = Organization.new(organization_params)
+      @organization.build_inventory
+      @organization.build_catalog
+      if @organization.save
         flash[:notice] = I18n.t('flash.notice.organization.create')
       else
         flash[:alert] = I18n.t('flash.alert.organization.create')
@@ -35,15 +38,24 @@ module Admin
       redirect_to admin_organizations_path
     end
 
+    def edit_multiple
+      @organizations = Organization.title_sorted
+    end
+
+    def update_multiple
+      authorize! :update, Organization
+      @success = Organization.update(params[:organizations].keys, params[:organizations].values)
+    end
+
     private
 
     def organization_params
       params.require(:organization).permit(
         :title,
         :description,
-        :logo_url,
         :landing_page,
         :gov_type,
+        :ranked,
         administrator_attributes: [:user_id],
         liaison_attributes: [:user_id],
         organization_sectors_attributes: [:id, :sector_id, :_destroy])

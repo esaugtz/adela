@@ -8,13 +8,17 @@ Adela::Application.routes.draw do
     end
 
     get '/:slug/catalogo' => 'organizations#catalog', as: 'organization_catalog'
-    get '/:slug/plan' => 'organizations#opening_plan'
+    get '/:slug/inventario' => 'organizations#inventory', as: 'organization_inventory'
 
     root to: 'home#index'
 
     resources :organizations, only: [:show, :update] do
       get 'profile', on: :member
       get 'search', on: :collection
+
+      resources :documents, controller: 'organizations/documents', only: [:index] do
+        put 'update', on: :collection, as: 'update'
+      end
 
       resources :catalogs, only: [:index, :show], shallow: true do
         get 'check', on: :collection
@@ -25,19 +29,6 @@ Adela::Application.routes.draw do
         end
       end
     end
-
-    resources :inventories, except: [:edit, :update, :destroy] do
-      member do
-        get 'publish'
-      end
-    end
-
-    resources :opening_plan, only: [:index, :new, :create] do
-      member do
-        get 'organization'
-        get 'export'
-      end
-    end
   end
 
   namespace :api, defaults: { format: 'json' } do
@@ -46,7 +37,12 @@ Adela::Application.routes.draw do
       get '/organizations' => 'organizations#organizations'
       get '/gov_types' => 'organizations#gov_types'
 
+      resources :datasets, only: [] do
+        get 'contact_point', on: :member
+      end
+
       resources :organizations, only: [:show] do
+        get 'inventory', on: :member
         collection do
           get 'catalogs'
           get 'organizations'
@@ -72,19 +68,18 @@ Adela::Application.routes.draw do
       end
     end
 
-    resources :organizations, except: [:show, :destroy]
+    resources :organizations, except: [:show, :destroy] do
+      get :edit_multiple, on: :collection
+      put :update_multiple, on: :collection
+    end
   end
 
-  namespace :mockups do
-    get '/469', to: 'templates#s469'
-    get '/473', to: 'templates#s473'
-    get '/475', to: 'templates#s475'
-
-    get '/501', to: 'templates#s501'
-    get '/502', to: 'templates#s502'
-    get '/503', to: 'templates#s502'
-    get '/504', to: 'templates#s504'
-    get '/505', to: 'templates#s505'
-    get '/506', to: 'templates#s506'
+  namespace :inventories do
+    resources :datasets do
+      get 'confirm_destroy', on: :member
+      resources :distributions do
+        get 'confirm_destroy', on: :member
+      end
+    end
   end
 end

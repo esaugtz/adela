@@ -1,8 +1,12 @@
-%table.table.table-striped
-  %thead
-    %tr
-      %th
-      %th Nombre del conjunto
-      %th Fecha estimada de publicación
-  %tbody
-    = render partial: 'inventories/shared/element', collection: inventory.datasets
+.table-responsive
+  %table.table{ 'style' => 'border-collapse:collapse;' }
+    %thead
+      %tr
+        %th.center #
+        %th= sortable('title', 'Nombre del conjunto y sus recursos')
+        %th.center Recursos del conjunto
+        %th.center Acceso
+        %th.center= sortable('publish_date', 'Fecha estimada de publicación')
+        %th.center Acciones
+    %tbody
+      = render partial: 'inventories/shared/dataset', collection: @datasets

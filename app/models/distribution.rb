@@ -1,43 +1,44 @@
 class Distribution < ActiveRecord::Base
-  belongs_to :dataset
-  validate :mandatory_fields
+  include Versionable
+  include Publishable
 
-  before_save :fix_distribution
-  before_save :break_distibution
+  belongs_to :dataset
+  audited associated_with: :dataset
+
+  validates_uniqueness_of :title
+  validates_uniqueness_of :download_url, allow_nil: true
+
+  has_one :catalog, through: :dataset
+  has_one :organization, through: :dataset
+
   after_commit :update_dataset_metadata
 
-  state_machine initial: :broke do
-    state :broke
-    state :documented
-    state :published
+  with_options on: :ckan do |distribution|
+    distribution.validates :title, :description, :download_url, :publish_date,
+                           :format, :modified, :temporal, presence: true
+  end
 
-    event :document do
-      transition [:broke, :published] => :documented, if: lambda { |distribution| distribution.compliant? }
-    end
-
-    event :break_dist do
-      transition [:documented, :published] => :broke, unless: lambda { |distribution| distribution.compliant? }
+  def as_csv(options = {})
+    if options[:style] == :inventory
+      {
+        'Responsable': dataset.contact_position,
+        'Nombre del conjunto': dataset.title,
+        'Nombre del recurso': title,
+        '¿De qué es?': description,
+        '¿Tiene datos privados?': dataset.public_access ? 'Publico' : 'Privado',
+        'Razón por la cual los datos son privados': nil,
+        '¿En qué plataforma, tecnología, programa o sistema se albergan?': media_type,
+        'Fecha estimada de publicación en datos.gob.mx': dataset.publish_date&.strftime('%F')
+      }
+    else
+      attributes
     end
   end
 
   private
 
-  def fix_distribution
-    document if can_document?
-  end
-
-  def break_distibution
-    break_dist if can_break_dist?
-  end
-
-  def mandatory_fields
-    fields = %i(download_url temporal modified)
-    fields.each do |field|
-      warnings.add(field) if send(field).blank?
-    end
-  end
-
   def update_dataset_metadata
+    return unless dataset
     last_modified_distribution = dataset.distributions.map(&:modified).compact.sort.last
     dataset.update(modified: last_modified_distribution)
   end

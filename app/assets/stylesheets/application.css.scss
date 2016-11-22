@@ -1,103 +1,72 @@
 /*
  *= require toastr
- *= require joyride-2.1
- *= require_self
  */
 
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+@font-face{
+ font-family:'Glyphicons Halflings';
+ src: image-url("bootstrap/glyphicons-halflings-regular.eot");
+ src: image-url("bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"),
+      image-url("bootstrap/glyphicons-halflings-regular.woff") format("woff"),
+      image-url("bootstrap/glyphicons-halflings-regular.ttf") format("truetype"),
+      image-url("bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg")
+}
+
+@import "bootstrap-sprockets";
 @import "bootstrap";
+
 @import "jquery.ui.core";
 @import "jquery.ui.theme";
 @import "jquery.ui.datepicker";
-@import "font-awesome";
 
-// Defaults
-@import 'defaults/colors';
-@import 'defaults/utilities';
-@import 'defaults/mixins';
+@import "template/colors";
 
-// Elements
-@import "elements/text";
-@import "elements/input";
-@import "elements/button";
-@import "elements/link";
-@import "elements/table";
-@import "elements/textarea";
-
-// Components
+// components
 @import "components/alert";
-@import "components/navbar";
-@import "components/nav-pills";
-@import "components/footer";
-@import "components/landing";
-@import "components/forms";
-@import "components/newsletter";
 @import "components/breadcrumbs";
-@import "components/datepicker";
-@import "components/joyride";
+@import "components/callouts";
+@import "components/carrets";
+@import "components/forms";
+@import "components/icons";
+@import "components/jumbotron";
+@import "components/labels";
+@import "components/navbar";
+@import "components/toast";
+@import "components/jquery.dataTables";
+@import "components/dashboard";
 
-// Cards
-@import "components/cards";
+// elements
+@import "elements/a";
+@import "elements/button";
+@import "elements/headings";
+@import "elements/p";
+@import "elements/table";
 
 body {
-  background-color: $grey_100;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  padding-top: 50px; // navbar height
+  color: $gray_400;
+  margin-bottom: 20px;
 }
 
-.toast-top-right {
-  top: 90px;
+p {
+  margin-bottom: 20px;
 }
 
-.content-dashboard {
-  margin-top: 40px;
+.center {
+  text-align: center;
 }
 
-.content-sub-dashboard {
-  margin-top: 80px;
+.thin {
+  font-weight: 300;
 }
 
-.calificacion-dashboard {
-    font-weight: bold;
-    font-size: 3em;
+.semibold {
+  font-weight: 600;
 }
 
-.lugar-dashboard {
-    float: left;
-    margin-left: 15px;
+.margin-top-20 {
+  margin-top: 20px;
 }
-
-.content-dashboard .title, .content-dashboard .subtitle {
-    color: #585858;
-    margin-bottom: 5px !important;
-}
-
-.content-dashboard p {
-    color: #777777;
-}
-
-.content-dashboard h3 {
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.content-dashboard h2 {
-    font-size: 34px;
-}
-
-.content-dashboard hr {
-    border-top: 1px solid #cccccc;
-}
-
-.content-dashboard table {
-    font-size: 12px
-}
-
-.high-light-dashboard{
-  color:#00cc99;
-}
-
-#logo_org{
-  min-width: 200px;
-  width: 100%;
-  margin-top: 15px;
-}
-
-svg { overflow: visible !important; }

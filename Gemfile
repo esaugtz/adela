@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails', '4.2.5'
+gem 'rails', '~> 4.2.5'
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'font-awesome-rails'
@@ -15,7 +15,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'devise'
 gem 'bootstrap-sass'
 gem 'carrierwave'
-gem 'carrierwave-aws'
 gem 'i18n'
 gem 'friendly_id'
 gem 'pg'
@@ -34,7 +33,6 @@ gem 'httparty'
 gem 'factory_girl_rails'
 gem 'validate_url'
 gem 'newrelic_rpm'
-gem 'active_model_warnings'
 gem 'enum_help'
 gem 'faker'
 gem 'toastr-rails'
@@ -51,6 +49,14 @@ gem 'state_machines-activerecord'
 gem 'autosize-rails'
 gem 'babosa'
 gem 'tzinfo-data'
+gem 'momentjs-rails'
+gem 'active_link_to'
+gem 'as_csv', '~> 2.0'
+gem 'vcardigan'
+gem 'inline_svg'
+gem 'polymer-rails'
+gem 'audited-activerecord'
+gem 'carrierwave-ftp', require: 'carrierwave/storage/ftp'
 
 group :development, :test do
   gem 'spring'
@@ -60,7 +66,6 @@ group :development, :test do
   gem 'letter_opener'
   gem 'thin'
   gem 'timecop'
-  gem 'therubyracer', platforms: :ruby
 end
 
 group :test do
@@ -78,8 +83,9 @@ group :doc do
 end
 
 group :production do
-  gem 'unicorn'
+  gem 'puma'
   gem 'rails_12factor'
+  gem 'rack-timeout'
 end
 
 # Dev tools and plugins

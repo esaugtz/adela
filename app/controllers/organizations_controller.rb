@@ -1,6 +1,7 @@
 # TODO: needs refactoring
 class OrganizationsController < ApplicationController
-  before_action :authenticate_user!, except: [:catalog, :search, :opening_plan]
+  before_action :authenticate_user!, except: [:catalog, :search, :opening_plans, :inventory]
+  respond_to :csv, only: :inventory
 
   # TODO: move action to home#dashboard
   def show
@@ -20,12 +21,10 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  # TODO: move action to a controller under the API namespace
-  def opening_plan
+  def inventory
     @organization = Organization.friendly.find(params[:slug])
-    respond_to do |format|
-      format.json { render json: @organization, serializer: OrganizationOpeningPlanSerializer, root: false }
-    end
+    @distributions = @organization.catalog.editable_datasets.map(&:distributions).flatten
+    respond_with @distributions, style: :inventory
   end
 
   # TODO: use show action instead of this one
@@ -47,6 +46,6 @@ class OrganizationsController < ApplicationController
   private
 
   def organization_params
-    params.require(:organization).permit(:title, :description, :logo_url, :gov_type, :landing_page)
+    params.require(:organization).permit(:title, :description, :gov_type, :landing_page)
   end
 end

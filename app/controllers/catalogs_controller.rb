@@ -12,19 +12,14 @@ class CatalogsController < ApplicationController
   end
 
   def check
-    @datasets = catalog_params['distribution_ids'].map do |id|
-      Distribution.find(id).dataset
-    end
-    @datasets.uniq!
+    @datasets = catalog_params['dataset_ids']&.map { |id| Dataset.find(id) } || []
+    @distributions = catalog_params['distribution_ids']&.map { |id| Distribution.find(id) } || []
+    (@datasets << @distributions&.map(&:dataset)).flatten!.uniq!
   end
 
   def publish
     @catalog = current_organization.catalog
-    @catalog.publish_date = Time.current
-    @catalog.save
-    publish_distributions
-    harvest_catalog
-    notify_administrator
+    publish_catalog
     redirect_to catalog_path(@catalog)
     return
   end
@@ -32,7 +27,7 @@ class CatalogsController < ApplicationController
   private
 
   def catalog_params
-    params.require(:catalog).permit(distribution_ids: [])
+    params.require(:catalog).permit(dataset_ids: [], distribution_ids: [])
   end
 
   def notify_administrator
@@ -40,10 +35,32 @@ class CatalogsController < ApplicationController
     CatalogMailer.publish_email(@catalog.id, administrator.user.id).deliver_now if administrator
   end
 
+  def publish_catalog
+    @catalog.publish_date = Time.current
+    @catalog.save
+    publish_datasets_and_distributions
+    harvest_catalog
+    notify_administrator
+  end
+
+  def publish_datasets_and_distributions
+    publish_datasets
+    publish_distributions
+  end
+
+  def publish_datasets
+    catalog_params['dataset_ids']&.each do |id|
+      dataset = Dataset.find(id)
+      dataset.update_column(:state, 'published')
+      dataset.update_column(:issued, Time.current) if dataset.issued.blank?
+    end
+  end
+
   def publish_distributions
-    catalog_params['distribution_ids'].each do |id|
+    catalog_params['distribution_ids']&.each do |id|
       distribution = Distribution.find(id)
       distribution.update_column(:state, 'published')
+      distribution.update_column(:issued, Time.current) if distribution.issued.blank?
     end
   end
 
@@ -53,8 +70,12 @@ class CatalogsController < ApplicationController
   end
 
   def require_opening_plan
-    return if current_organization.opening_plans.present?
+    return if current_organization.catalog && catalog_contains_editable_and_published_datasets?
     render :error
     return
+  end
+
+  def catalog_contains_editable_and_published_datasets?
+    current_organization.catalog.datasets.where(editable: true).present?
   end
 end

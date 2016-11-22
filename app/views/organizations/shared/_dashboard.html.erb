@@ -1,0 +1,624 @@
+
+<div class="overlay-dashboard">
+  <!-- header organizacion -->
+  <div class="container content-dashboard">
+    <div class="row">
+      <div class="col-sm-4 logo-div">
+        <img id="logo_org">            
+      </div>
+      <div class="col-sm-8 text-right title-print">
+        <h2 class='title' id="title_org"></h2>
+        <p>Este tablero de control se actualiza cada 24 horas.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gray_back">
+    <div class="container content-dashboard">
+      <div class="row">
+        <div class="col-sm-6">
+          <h4 class='title'>Calificación total de la institución</h4>
+          <p>Para conocer cómo se calcúla esta calificación da <a href="javascript:void(0)" class="openModal">click aqui.</a></p><hr>
+          <div class="row">
+            <div class="col-xs-12">
+              <span class="pull-left calificacion-dashboard high-light-dashboard" id="califTotal"></span>
+              <span class="pull-left calificacion-dashboard-gray">/10</span>
+            </div>
+            <div class="col-xs-12">
+              <p>Lugar <span id="rknTotal"></span> de <span id="orgTotal"></span> instituciones.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-5 col-sm-offset-1 noPrint">
+          <span class="glyphicon glyphicon-info-sign gly-warning pull-left title starDark"></span>
+          <p class="media-body">Para mejorar tu calificación te sugerimos: primero, atender tus recomendaciones y, posteriormente, realizar las actividades que tienes pendientes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container content-dashboard">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class='title'>Atiende tus recomendaciones</h3>
+          <div class="table-responsive table-500">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="text-center">Tipo</th>
+                  <th class="text-center">Recurso</th>
+                  <th class="text-center">Error</th>
+                </tr>
+              </thead>
+              <tbody id="table-recommendations">
+                <tr></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="printHiden">&nbsp;</p>
+        <div class="col-sm-5 col-sm-offset-1">
+          <p class="printHiden">&nbsp;</p>
+          <h3 class='title'>Actividades pendientes</h3>
+          <p>A continuación puedes ver por categoría las actividades pendientes que tiene tu Institución.</p><br>
+          <div class="table-responsive table-500">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="text-center">Fecha</th>
+                  <th class="text-center">Recurso</th>
+                  <th class="text-center">Tipo</th>
+                </tr>
+              </thead>
+              <tbody id="table-pendientes">
+                <tr></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container content-dashboard">
+    <div class="row">
+      <div class="col-sm-6">
+        <h3 class='title'>Recursos publicados</h3>
+        <p>Número de recursos ya publicados contra número total de recursos por publicar.</p><hr>
+        <div class="row">
+          <div class="col-xs-12">
+            <span class="pull-left calificacion-dashboard high-light-dashboard" id="issuedPublish"></span>
+            <span class="pull-left calificacion-dashboard-gray" id="issuedTotal"></span>
+          </div>
+        </div>
+        <div class="content-sub-dashboard">
+          <h3 class='title'>Calificación de apertura <span class="high-light-dashboard">| Beta</span></h3>
+          <p>Esta calificación depende de los tipos de archivos que son publicados. Para conocer más da <a href="javascript:void(0)" class="openModal">click aquí.</a></p><hr>
+          <br>
+          <ul class="list-inline">
+            <li><div id="stars-raiting"></div></li>
+          </ul>
+        </div>
+        <p class="printHiden">&nbsp;</p>
+        <div class="content-sub-dashboard">
+          <h3 class='title'>Calidad de datos <span class="high-light-dashboard">| Beta</span></h3>
+          <p>Para conocer cómo se genera esta calificación de calidad de los datos da <a href="javascript:void(0)" class="openModal">click aquí.</a></p><hr>
+          <h2><span class="high-light-dashboard" id="calidadDatosHtml"></span></h2>
+          <p class="printHiden">&nbsp;</p>
+        </div>
+        <div class="content-sub-dashboard">
+          <a class="btn btn-primary download-pdf noPrint" href="javascript:printPDF()">Descargar como PDF</a>
+        </div>
+      </div>
+      <p class="printHiden">&nbsp;</p>
+      <div class="col-sm-5 col-sm-offset-1">
+        <p class="printHiden">&nbsp;</p>
+        <h3 class='title'>Top 5 Recursos Descargados</h3>
+        <p>Información de los 5 recursos más descargados de tu institución.</p>
+        <div class="table-responsive table-400" style="margin-top: 20px;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Recurso</th>
+                <th>Última actualización</th>
+                <th class="text-center">Descargas</th>
+              </tr>
+            </thead>
+            <tbody id="table-downloads">
+              <tr></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 class='title'>Indicadores generales</h3>
+        <p>Los siguientes indicadores muestran el estado actual de tu inventario, recursos de datos, actualizaciones, solicitudes y URLs.</p><hr>
+        <div class="row">
+
+          <div class="col-xs-12">
+            <h6 class='title'>Inventario</h6>
+            <div id="bar-chart1"></div>
+          </div>
+          <div class="col-sm-6 hidden" id="hiddenPDF">
+            <h6 class='title'>Actualizaciones</h6>
+            <div id="bar-chart2"></div>
+          </div>
+        </div>
+
+        <div class="row hidden" id="hiddenPDF">
+          <div class="col-sm-6">
+            <h6 class='title'>URLs</h6>
+            <div id="bar-chart3"></div>
+          </div>
+          <div class="col-sm-6">
+            <h6 class='title'>Solicitudes</h6>
+            <div id="bar-chart4"></div>
+          </div>
+          <div class="col-sm-6">
+            <h6 class='title'>Recursos de datos</h6>
+            <div id="bar-chart5"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modalTotal -->
+<div id="modalTotal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">¿Cómo se calcúla esta calificación?</h4>
+      </div>
+      <div class="modal-body">
+
+        <h4 class="title">Calificación de la Dependencia</h4>
+        <br>
+        <p>Para asignar evaluar a las instituciones se toman en cuenta 4 aspectos previos a la ejecución de la metodología de calificación:</p>
+        <ul>
+          <li>Calificación de Calidad (60%)</li>
+          <li>Atrasos en la publicación de sus datos (15%)</li>
+          <li>Descargas realizadas por usuarios de datos.gob (15%)</li>
+          <li>Recomendaciones por atender (10%)</li>
+        </ul>
+        <p>
+          Cada uno de los aspectos suma valor en proporción al peso asignado en la metodología.
+        </p>
+        <p>A continuación se desglosa el peso de cada uno de los aspectos mencionados anteriormente dentro de la calificación total de una dependencia.</p>
+
+        <h4 class="title">Atrasos en la publicación de sus datos.</h4>
+        <br>
+        <p>La dependencia será penalizada si cuenta con atrasos en la publicación de sus datos en el momento de la evaluación. Una dependencia con atrasos no puede ser acreedora a la adición del <strong>15% de la calificación</strong>, una dependencia que esta al dia podrá sumar este porcentaje a su calificación.</p>
+        
+        <h4 class="title">Descargas realizadas por los usuarios.</h4>
+        <br>
+        <p>Las descargas de los recursos son contabilizadas para evaluar la popularidad de los datos publicados por una institución. Una dependencia que en el momento de la evaluación cuente con descargas contabilizadas accedera a un <strong>15%</strong> de su calificación, de lo contrario no podrá sumar este porcentaje.</p>
+
+        <h4 class="title">Recomendaciones por atender.</h4>
+        <br>
+        <p>Las dependencias son evaluadas constantemente y son emitidas recomendaciones cuando existen detalles a pulir en los datos que publican. Cuando una dependencia cuenta con recomendaciones sin resolver (pendientes), no podrá sumar <strong>10%</strong> restante de la calificación, una dependencia que está al tanto de las recomendaciones y las resuelva en tiempo y forma podrá sumar este porcentaje.</p>
+        
+        <h4 class="title">Calificación de Apertura</h4>
+        <br>
+        <p>Esta calificación se relaciona con el tipo de formato en el que las dependencias o entidades de la APF publican sus archivos. La calificación se mide por medio de estrellas siendo la calificación máxima 5 estrellas. De esta manera, cuando se publique un documento que no cuente con las características suficientes para ser considerado Dato Abiertos, se le asignan menos estrellas, es decir, una menor calificación de apertura.</p>
+        <p>Los conjuntos recibirán las siguientes calificaciones según cómo se publiquen los datos:</p>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="tdStar">Calificación</th>
+                <th>Descripción</th>
+                <th>Formato de Publicación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tdStar">
+                  <i class="glyphicon glyphicon-star"></i>
+                </td>
+                <td>Compartir información sin importar el formato</td>
+                <td>PNG, PDF, BMP, JPG, ZIP</td>
+              </tr>
+              <tr>
+                <td class="tdStar">
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                </td>
+                <td>Hacer la información disponible de manera estructurada</td>
+                <td>XLS, XLSX</td>
+              </tr>
+              <tr>
+                <td class="tdStar">
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                </td>
+                <td>Hacer la información disponible en un formato no propietario</td>
+                <td>CSV, JSON, TXT, XML, HTML, TSV, SHP, PSV, KML, KMZ</td>
+              </tr>
+              <tr>
+                <td class="tdStar">
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                </td>
+                <td>Utilizar URLs para definir datos para que la gente pueda apuntar a estos</td>
+                <td>RDF</td>
+              </tr>
+              <tr>
+                <td class="tdStar">
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                  <i class="glyphicon glyphicon-star"></i>
+                </td>
+                <td>Agregar datos externos a tus datos para proveer contexto</td>
+                <td>LOD</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h4 class="title">Calificación de Calidad.</h4>
+        <br>
+        <p>
+          La calidad de una dependencia se obtiene a través de un ponderado de la calificación de sus recursos en cuanto a calidad se refiere. Para ser acreedor a las distintas medallas de calidad, el recurso debe cumplir con ciertos metadatos y mantenimiento requeridos, los cuales son llenados desde la plataforma ADELA. Los valores de esta calificación recaen en 3 categorías: <strong>bronce, plata y oro</strong>. Estas “medallas” aportan el siguiente valor a la calificación:
+        </p>
+        <ul>
+          <li>Bronce: +40%</li>
+          <li>Plata: +10%</li>
+          <li>Oro: +10%</li>
+        </ul>
+        <p>
+          Para obtener las medallas se deben cubrir los siguientes requerimientos: 
+        </p>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Medalla</th>
+                <th>Requerimiento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bronce (3)</td>
+                <td>URL, título, descripción, tema y etiquetas</td>
+              </tr>
+              <tr>
+                <td>Plata (2)</td>
+                <td>URL, nombre y correo de contacto del propietario </td>
+              </tr>
+              <tr>
+                <td>Oro (1)</td>
+                <td>Actualizaciones realizadas al recurso según la frecuencia definida en ADELA (diario, semanal, etc.)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+
+$(".openModal").click(function(){
+    $("#modalTotal").modal();
+});
+
+var orgCount = "<%= Organization.count %>";
+var strName = "<%= current_user.organization.title %>";
+var orgName = strName.toLowerCase();
+var pageSize = '&pageSize=20000';
+var issuedTotal = 0;
+var issuedPublish  = 0;
+var sumaRating  = 0;
+var sumaCalidad  = 0;
+var totalRecommendations  = 0;
+
+var totalCalidad, percentRecommen, percentPubl, percentCalidad, dataApi, orgTitle, orgLogoUrl, downloads, adelaIssued, resourceId, rating, totalRaiting, adelaPublishDate, resourceTitle, resourceType, resourceModified, dataDescargasOpi, isPublicFalse, isPublicTrue;
+var valueDownloads = [];
+
+//Ajax Dataset Buda
+$.ajax({
+  url: "<%= OPI_BUDA_URL_API %>" + orgName + pageSize,
+  async: false,
+  type: 'GET',
+  success: function(data) {
+    dataApi = data;
+  },
+  error: function(data){
+    console.log("error- ",data);
+  }
+});
+
+orgLogoUrl = "<%= OPI_LOGOS_URL %>" + orgName + '.png';
+$('#logo_org').attr('src',orgLogoUrl);
+
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+//Dependencias Opi
+$.ajax({
+  url: "<%= OPI_DASHBOARD_URL_API %>/" + orgName + "/",
+  async: false,
+  type: 'GET',
+  success: function(json) {
+    isPublicFalse = json.privados;
+    isPublicTrue = json.publicos;
+    totalRaiting = json.apertura;
+    $("#califTotal").text(json.calificacion);
+    $("#rknTotal").text(json.ranking);
+    $("#title_org").text(json.institucion);
+    $('#issuedTotal').text('/'+json.total.toLocaleString('en'));
+    $('#issuedPublish').text(json.publicados.toLocaleString('en'));
+    $("#calidadDatosHtml").text(toTitleCase(json.calidad));
+  }
+});
+
+$("#orgTotal").text(orgCount);
+
+//Top 5 Descargas
+$.ajax({
+  url: "<%= OPI_DASHBOARD_URL_API %>" + "/recursos-mas-descargados/" + orgName + "/",
+  async: false,
+  type: 'GET',
+  success: function(data) {
+    dataDescargasOpi = data;
+  },
+  error: function(data){
+    console.log("error- ",data);
+  }
+});
+
+var monthNames = [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic" ];
+
+$.each(dataApi.results,function(key, value){
+
+  //Recorre IDs de recursos en Adela
+  resourceId = value.adela.dataset.id;
+  //Obtengo Titulo
+  resourceTitle = value.adela.resource.title;
+  resourceModified = value.adela.resource.modified;
+  //Calificación Calidad de Datos
+  if (value.calificacion == "bronce") {
+    sumaCalidad = sumaCalidad + 1;
+  } else if (value.calificacion == "plata") {
+    sumaCalidad = sumaCalidad + 2;
+  } else if (value.calificacion == "oro") {
+    sumaCalidad = sumaCalidad + 3;
+  }
+
+  totalCalidad = sumaCalidad / issuedTotal;
+  if (totalCalidad > 0 && totalCalidad <= 1.5) {
+    var calidadDatos = "Bronce";
+  } else if (totalCalidad > 1.5 && totalCalidad <= 2.5) {
+    var calidadDatos = "Plata";
+  } else if (totalCalidad > 2.5 && totalCalidad <= 3) {
+    var calidadDatos = "Oro";
+  }
+
+  totalRecommendations = totalRecommendations + value.recommendations.length
+
+  //Recorre recomendaciones
+  $.each(value.recommendations,function(key, value){
+    var recommendations = value;
+    if (recommendations["more-info"]) {
+      var nameError = recommendations.name;
+      var urlError = recommendations["more-info"];
+    } else {
+      var nameError = "";
+      var urlError = "";
+    }
+    var html = '';
+    html += '<tr><td>' + recommendations.categoria.replace(/\b\w/g, function(l){ return l.toUpperCase() }) + '</td><td class="datosTitle" title="'+resourceTitle+'"><a href="/conjuntos/'+ resourceId +'/edit">' + resourceTitle + '</a></td><td>' + recommendations.name + '</td></tr>';
+    $('#table-recommendations tr').first().after(html);
+  });
+
+  //Recorre descargas
+  $.each(value.analytics,function(key, value){
+    downloads = value.total;
+    if (downloads != null) {
+      valueDownloads.push(downloads);
+    }
+
+  });
+
+  $("#stars-raiting").attr("data-rating",totalRaiting);
+
+  //Obtengo publishDate
+  adelaPublishDate = value.adela.dataset.publishdate;
+  var dateToday = new Date();
+  var date = new Date(adelaPublishDate);
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  if (date > dateToday) {
+    percentPubl = 0;
+    var htmlPendientes = '';
+    htmlPendientes += '<tr><td class="text-center code-color-dashboard">' + day + ' ' + monthNames[monthIndex] + ' ' + year + '</td><td>' + resourceTitle + '</td><td>-</td></tr>';
+    $('#table-pendientes tr').first().after(htmlPendientes);
+  } else {
+    percentPubl = 15;
+  }
+
+});
+
+//Función para obtener el top 5 de descargas
+var n = 5;
+var topScorers = dataDescargasOpi.recursos;
+topScorers.forEach(function(item, index) {
+  var dateDownload = new Date(resourceModified);
+  var day = dateDownload.getDate();
+  var monthIndex = dateDownload.getMonth();
+  var year = dateDownload.getFullYear();
+  var htmlDown = '';
+  htmlDown += '<tr><td class="datosTitle" title="'+item.recurso+'">' + item.recurso + '</td><td>'+ item.actualizacion +'</td><td class="text-center">' + item.descargas + '</td></tr>';
+  $('#table-downloads tr').last().after(htmlDown);
+});
+
+var count = 1;
+$('.code-color-dashboard').each(function() {
+  count = count+1;
+  var heatmapScale  = chroma.scale(['#FFFF00','#FFAA00','#FF0000','#E60000']).colors(count);
+  $(this).css('border-right','2px solid').css('border-right-color',heatmapScale[1]);
+});
+
+/////Raiting
+(function ( $ ) {
+
+    $.fn.rating = function( method, options ) {
+    method = method || 'create';
+      var settings = $.extend({
+      limit: 5,
+      value: 0,
+      glyph: "glyphicon-star",
+      coloroff: "#D8D8D8",
+      size: "2.5em",
+      cursor: "default",
+      onClick: function () {},
+            endofarray: "idontmatter"
+        }, options );
+    var style = "";
+    style = style + "font-size:" + settings.size + "; ";
+    style = style + "color:" + settings.coloroff + "; ";
+    style = style + "cursor:" + settings.cursor + "; ";
+    style = style + "margin: 0 7px;";
+
+    if (method == 'create')
+    {
+      //initialize the data-rating property
+      this.each(function(){
+        attr = $(this).attr('data-rating');
+        if (attr === undefined || attr === false) { $(this).attr('data-rating',settings.value); }
+      })
+
+      //bolt in the glyphs
+      for (var i = 0; i < settings.limit; i++)
+      {
+        this.append('<span data-value="' + (i+1) + '" class="ratingicon glyphicon ' + settings.glyph + '" style="' + style + '" aria-hidden="true"></span>');
+      }
+
+      //paint
+      this.each(function() { paint($(this)); });
+
+    }
+    if (method == 'set')
+    {
+      this.attr('data-rating',options);
+      this.each(function() { paint($(this)); });
+    }
+    if (method == 'get')
+    {
+      return this.attr('data-rating');
+    }
+    function paint(div)
+    {
+      rating = parseInt(div.attr('data-rating'));
+      div.find("input").val(rating);  //if there is an input in the div lets set it's value
+      div.find("span.ratingicon").each(function(){  //now paint the stars
+
+        var rating = parseInt($(this).parent().attr('data-rating'));
+        var value = parseInt($(this).attr('data-value'));
+        if (value > rating) { $(this).css('color',settings.coloroff).addClass('starDark'); }
+        else { $(this).addClass('starLight'); }
+      })
+    }
+
+    };
+
+}( jQuery ));
+
+$(document).ready(function(){
+  $("#stars-raiting").rating('create');
+});
+
+///// BarChart
+google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+  var dataArray1 = [
+    ['Name', 'Cantidad', { role: 'annotation' }, { role: 'style' }],
+    ['Privado', isPublicFalse, isPublicFalse, 'color: #00cc99'],
+    ['Público', isPublicTrue, isPublicTrue, 'color: #9400CC']
+  ];
+  data1 = google.visualization.arrayToDataTable(dataArray1);
+  var dataArray2 = [
+    ['Name', 'Cantidad', { role: 'annotation' }, { role: 'style' }],
+    ['Realizadas', 13, '13%', 'color: #00cc99'],
+    ['Futuras', 18, '18%', 'color: #9400CC'],
+    ['No realizadas', 20,  '20%', 'color: #FF5F3E']
+  ];
+  data2 = google.visualization.arrayToDataTable(dataArray2);
+  var dataArray3 = [
+    ['Name', 'Cantidad', { role: 'annotation' }, { role: 'style' }],
+    ['Activas', 23, '23%', 'color: #00cc99'],
+    ['Redirecciones', 45, '45%', 'color: #9400CC'],
+    ['Rotas', 4,  '4%', 'color: #FF5F3E']
+  ];
+  data3 = google.visualization.arrayToDataTable(dataArray3);
+  var dataArray4 = [
+    ['Presupuesto', 'Cantidad', { role: 'annotation' }, { role: 'style' }],
+    ['Atendidas', 13, '13%', 'color: #00cc99'],
+    ['Por atender', 35, '35%', 'color: #9400CC'],
+    ['No atendidas', 100,  '100%', 'color: #FF5F3E']
+  ];
+  data4 = google.visualization.arrayToDataTable(dataArray4);
+  var dataArray5 = [
+    ['Presupuesto', 'Cantidad', { role: 'annotation' }, { role: 'style' }],
+    ['Publicados', 35, '35%', 'color: #9400CC'],
+    ['Por publicar', 100,  '100%', 'color: #FF5F3E']
+  ];
+  data5 = google.visualization.arrayToDataTable(dataArray5);
+  var options = {
+    animation:{
+      duration: 1000,
+      easing: 'out',
+    },
+    annotations: {
+      textStyle: {
+        color: 'gray',
+        fontSize: 10
+      },
+      highContrast: false,
+      alwaysOutside: true
+    },
+    legend: { position: 'none' },
+    hAxis: {
+      textPosition: 'none',
+      gridlines: {
+        color: 'transparent'
+      }
+    },
+    isStacked: false
+  };
+  var chart1 = new google.visualization.BarChart(document.getElementById('bar-chart1'));
+  chart1.draw(data1, options);
+  var chart2 = new google.visualization.BarChart(document.getElementById('bar-chart2'));
+  chart2.draw(data2, options);
+  var chart3 = new google.visualization.BarChart(document.getElementById('bar-chart3'));
+  chart3.draw(data3, options);
+  var chart4 = new google.visualization.BarChart(document.getElementById('bar-chart4'));
+  chart4.draw(data4, options);
+  var chart5 = new google.visualization.BarChart(document.getElementById('bar-chart5'));
+  chart5.draw(data5, options);
+};
+
+//Download PDF
+  function printPDF() {
+    window.print();
+  };
+
+</script>
